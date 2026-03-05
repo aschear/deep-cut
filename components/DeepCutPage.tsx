@@ -10,34 +10,12 @@ export default function DeepCutPage({ result, onBack }: DeepCutPageProps) {
   const { song, content } = result;
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden">
-      {/* ── Background: blurred album art ── */}
-      {song.imageUrl && (
-        <>
-          <div
-            className="fixed inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${song.imageUrl})`,
-              filter: "blur(48px) saturate(0.6)",
-              transform: "scale(1.15)",
-              opacity: 0.45,
-              zIndex: 0,
-            }}
-            aria-hidden="true"
-          />
-          {/* Dark scrim so text is always readable */}
-          <div
-            className="fixed inset-0 bg-void/70"
-            style={{ zIndex: 1 }}
-            aria-hidden="true"
-          />
-        </>
-      )}
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-void">
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen">
         {/* Header */}
-        <header className="flex items-center justify-between px-5 pt-safe pt-4 pb-4">
+        <header className="relative z-10 flex items-center justify-between px-5 pt-safe pt-4 pb-4">
           <button
             onClick={onBack}
             aria-label="Back"
@@ -71,20 +49,44 @@ export default function DeepCutPage({ result, onBack }: DeepCutPageProps) {
           <div className="w-5" aria-hidden="true" />
         </header>
 
-        {/* Hero */}
-        <div className="px-5 pt-8 pb-10 animate-[fade-in_0.7s_ease-out_forwards]">
-          <h1 className="font-serif font-bold leading-[0.95] text-cream mb-3 break-words"
-              style={{ fontSize: "clamp(2.4rem, 10vw, 4.5rem)" }}>
-            {song.title.toUpperCase()}.
-          </h1>
-          <p className="font-sans text-sm font-medium tracking-[0.18em] uppercase text-cream-dim">
-            {song.artist}
-          </p>
-          {(song.album || song.releaseYear) && (
-            <p className="font-sans text-xs tracking-[0.12em] uppercase text-cream-dim/60 mt-1.5">
-              {[song.album, song.releaseYear].filter(Boolean).join(" · ")}
-            </p>
+        {/* Hero — album art bleeds in from the right via CSS mask */}
+        <div className="relative overflow-hidden pt-8 pb-10 animate-[fade-in_0.7s_ease-out_forwards]">
+          {/* Album art: right-anchored, masked transparent→opaque left→right */}
+          {song.imageUrl && (
+            <div
+              className="absolute inset-0 bg-cover bg-right"
+              style={{
+                backgroundImage: `url(${song.imageUrl})`,
+                WebkitMaskImage: "linear-gradient(to right, transparent 25%, black 72%)",
+                maskImage: "linear-gradient(to right, transparent 25%, black 72%)",
+                opacity: 0.85,
+              }}
+              aria-hidden="true"
+            />
           )}
+          {/* Subtle bottom fade so hero blends cleanly into the divider */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-void to-transparent"
+            aria-hidden="true"
+          />
+
+          {/* Text — sits above the art */}
+          <div className="relative z-10 px-5">
+            <h1
+              className="font-serif font-bold leading-[0.95] text-cream mb-3 break-words"
+              style={{ fontSize: "clamp(2.4rem, 10vw, 4.5rem)" }}
+            >
+              {song.title.toUpperCase()}.
+            </h1>
+            <p className="font-sans text-sm font-medium tracking-[0.18em] uppercase text-cream-dim">
+              {song.artist}
+            </p>
+            {(song.album || song.releaseYear) && (
+              <p className="font-sans text-xs tracking-[0.12em] uppercase text-cream-dim/60 mt-1.5">
+                {[song.album, song.releaseYear].filter(Boolean).join(" · ")}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Divider */}
