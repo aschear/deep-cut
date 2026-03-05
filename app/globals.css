@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    /* Prevent font size inflation on iOS */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #0C0C0C;
+    color: #EDE9E0;
+    /* Prevent overscroll bounce from revealing white background on iOS */
+    overscroll-behavior: none;
+  }
+
+  /* Safe area inset support for notched phones */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Smooth scrolling */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: rgba(184, 92, 56, 0.3);
+    color: #EDE9E0;
+  }
+}
+
+@layer utilities {
+  /* Ensure minimum touch target size on mobile */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
