@@ -18,16 +18,16 @@ export default function DeepCutPage({ result, onBack }: DeepCutPageProps) {
             className="fixed inset-0 bg-cover bg-center"
             style={{
               backgroundImage: `url(${song.imageUrl})`,
-              filter: "blur(60px) saturate(0.5)",
-              transform: "scale(1.1)",
-              opacity: 0.18,
+              filter: "blur(48px) saturate(0.6)",
+              transform: "scale(1.15)",
+              opacity: 0.45,
               zIndex: 0,
             }}
             aria-hidden="true"
           />
           {/* Dark scrim so text is always readable */}
           <div
-            className="fixed inset-0 bg-void/85"
+            className="fixed inset-0 bg-void/70"
             style={{ zIndex: 1 }}
             aria-hidden="true"
           />
