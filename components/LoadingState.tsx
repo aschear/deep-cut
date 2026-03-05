@@ -44,7 +44,7 @@ export default function LoadingState() {
         {Array.from({ length: BAR_COUNT }).map((_, i) => (
           <div
             key={i}
-            className="flex-1 rounded-full bg-ember animate-[waveform-bar_1.2s_ease-in-out_infinite]"
+            className="flex-1 h-full rounded-full bg-ember animate-[waveform-bar_1.2s_ease-in-out_infinite]"
             style={getBarStyle(i)}
           />
         ))}

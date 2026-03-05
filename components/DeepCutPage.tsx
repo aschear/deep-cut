@@ -76,7 +76,7 @@ export default function DeepCutPage({ result, onBack }: DeepCutPageProps) {
               className="font-serif font-bold leading-[0.95] text-cream mb-3 break-words"
               style={{ fontSize: "clamp(2.4rem, 10vw, 4.5rem)" }}
             >
-              {song.title.toUpperCase()}.
+              {song.title.toUpperCase()}
             </h1>
             <p className="font-sans text-sm font-medium tracking-[0.18em] uppercase text-cream-dim">
               {song.artist}
