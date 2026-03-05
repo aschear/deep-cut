@@ -18,7 +18,7 @@ export default function Home() {
 
   const handleResult = useCallback(
     (result: DeepCutResult) => {
-      // Persist result to sessionStorage so the deep-cut page can read it
+      // Store song (content streams on the results page)
       sessionStorage.setItem("deepCutResult", JSON.stringify(result));
       router.push("/deep-cut");
     },
@@ -36,13 +36,11 @@ export default function Home() {
     (listenState: string) => {
       if (
         listenState === "identifying" ||
-        listenState === "generating" ||
         listenState === "recording" ||
         listenState === "requesting"
       ) {
         setAppState({ phase: "loading" });
       } else if (listenState === "idle") {
-        // Don't reset to idle if we're in an error state — ErrorState handles retry
         setAppState((prev) =>
           prev.phase === "error" ? prev : { phase: "idle" }
         );

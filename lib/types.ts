@@ -16,9 +16,16 @@ export interface DeepCutContent {
   triviaAndDeepLore: string;
 }
 
+export type SectionKey = keyof DeepCutContent;
+
+export interface SectionEvent {
+  section: SectionKey;
+  content: string;
+}
+
 export interface DeepCutResult {
   song: SongMatch;
-  content: DeepCutContent;
+  content?: DeepCutContent;
 }
 
 // API response shapes

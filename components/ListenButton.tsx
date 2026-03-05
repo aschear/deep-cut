@@ -7,8 +7,7 @@ type ListenState =
   | "idle"
   | "requesting"
   | "recording"
-  | "identifying"
-  | "generating";
+  | "identifying";
 
 interface ListenButtonProps {
   onResult: (result: DeepCutResult) => void;
@@ -68,7 +67,7 @@ export default function ListenButton({
           type: mimeType || "audio/webm",
         });
 
-        // Step 1: Identify
+        // Identify
         updateState("identifying");
         const formData = new FormData();
         formData.append("audio", audioBlob, "clip.webm");
@@ -89,29 +88,8 @@ export default function ListenButton({
           return;
         }
 
-        const song = identifyData.song;
-
-        // Step 2: Generate
-        updateState("generating");
-        const generateRes = await fetch("/api/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(song),
-        });
-
-        const generateData = await generateRes.json();
-
-        if (!generateData.success) {
-          updateState("idle");
-          onError(
-            generateData.message ?? "Something went wrong generating the story.",
-            "api_error"
-          );
-          return;
-        }
-
-        onResult({ song, content: generateData.content });
-        // Parent handles navigation; reset state after brief pause
+        // Navigate immediately — generate streams on the results page
+        onResult({ song: identifyData.song });
         setTimeout(() => updateState("idle"), 500);
       };
 
@@ -190,7 +168,7 @@ export default function ListenButton({
         {state === "idle" && "Tap to listen"}
         {state === "requesting" && "Allow microphone…"}
         {state === "recording" && "Listening…"}
-        {(state === "identifying" || state === "generating") && "On it…"}
+        {state === "identifying" && "On it…"}
       </p>
     </div>
   );

@@ -42,11 +42,16 @@ const config: Config = {
           "0%": { transform: "scale(1)", opacity: "0.6" },
           "100%": { transform: "scale(1.8)", opacity: "0" },
         },
+        "skeleton-pulse": {
+          "0%, 100%": { opacity: "0.3" },
+          "50%": { opacity: "0.6" },
+        },
       },
       animation: {
         "waveform-bar": "waveform-bar 1.2s ease-in-out infinite",
         "fade-in": "fade-in 0.6s ease-out forwards",
         "pulse-ring": "pulse-ring 1.8s ease-out infinite",
+        "skeleton-pulse": "skeleton-pulse 1.4s ease-in-out infinite",
       },
     },
   },

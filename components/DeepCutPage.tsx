@@ -1,14 +1,23 @@
 import SectionBlock from "./SectionBlock";
-import type { DeepCutResult } from "@/lib/types";
+import type { SongMatch, DeepCutContent } from "@/lib/types";
 
 interface DeepCutPageProps {
-  result: DeepCutResult;
+  song: SongMatch;
+  content: Partial<DeepCutContent>;
+  generateState: "loading" | "done" | "error";
+  generateError?: string;
   onBack: () => void;
+  onRetry: () => void;
 }
 
-export default function DeepCutPage({ result, onBack }: DeepCutPageProps) {
-  const { song, content } = result;
-
+export default function DeepCutPage({
+  song,
+  content,
+  generateState,
+  generateError,
+  onBack,
+  onRetry,
+}: DeepCutPageProps) {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-void">
 
@@ -92,26 +101,51 @@ export default function DeepCutPage({ result, onBack }: DeepCutPageProps) {
         {/* Divider */}
         <div className="w-full h-px bg-chalk-line mx-0" />
 
+        {/* Generate error */}
+        {generateState === "error" && (
+          <div className="px-5 py-8 flex flex-col items-center gap-4 animate-[fade-in_0.5s_ease-out_forwards]">
+            <p className="font-sans text-xs tracking-[0.15em] uppercase text-cream-dim/60 text-center">
+              {generateError ?? "We couldn't pull the story on this one."}
+            </p>
+            <button
+              onClick={onRetry}
+              className="
+                font-sans text-[0.65rem] tracking-[0.2em] uppercase
+                text-cream-dim border border-chalk-line
+                px-6 py-3 rounded-sm
+                hover:text-cream hover:border-cream/30
+                transition-all duration-200
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-ember
+              "
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+
         {/* Sections */}
-        <main className="flex-1 px-5 py-8 space-y-10">
-          <SectionBlock header="Band History" body={content.bandHistory} />
-          <div className="w-full h-px bg-chalk-line" />
+        {generateState !== "error" && (
+          <main className="flex-1 px-5 py-8 space-y-10">
+            <SectionBlock header="Band History" body={content.bandHistory ?? null} />
+            <div className="w-full h-px bg-chalk-line" />
 
-          <SectionBlock header="The Story Behind This Song" body={content.storyBehindSong} />
-          <div className="w-full h-px bg-chalk-line" />
+            <SectionBlock header="The Story Behind This Song" body={content.storyBehindSong ?? null} />
+            <div className="w-full h-px bg-chalk-line" />
 
-          <SectionBlock header="Critical Reception" body={content.criticalReception} />
+            <SectionBlock header="Critical Reception" body={content.criticalReception ?? null} />
 
-          {content.controversies && (
-            <>
-              <div className="w-full h-px bg-chalk-line" />
-              <SectionBlock header="Controversies" body={content.controversies} />
-            </>
-          )}
+            {/* Controversies: only show when arrived and non-null */}
+            {content.controversies && (
+              <>
+                <div className="w-full h-px bg-chalk-line" />
+                <SectionBlock header="Controversies" body={content.controversies} />
+              </>
+            )}
 
-          <div className="w-full h-px bg-chalk-line" />
-          <SectionBlock header="Trivia & Deep Lore" body={content.triviaAndDeepLore} />
-        </main>
+            <div className="w-full h-px bg-chalk-line" />
+            <SectionBlock header="Trivia & Deep Lore" body={content.triviaAndDeepLore ?? null} />
+          </main>
+        )}
 
         {/* Footer CTA */}
         <div className="px-5 pb-safe pb-10 pt-4 flex justify-center">

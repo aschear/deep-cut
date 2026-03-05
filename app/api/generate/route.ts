@@ -1,38 +1,55 @@
-import { NextRequest, NextResponse } from "next/server";
-import { generateDeepCut } from "@/lib/claude";
-import type { SongMatch, GenerateResponse, GenerateError } from "@/lib/types";
+import { NextRequest } from "next/server";
+import { streamDeepCut } from "@/lib/claude";
+import type { SongMatch } from "@/lib/types";
 
 export async function POST(request: NextRequest) {
+  let song: SongMatch;
   try {
-    const body = await request.json();
-    const song = body as SongMatch;
-
-    if (!song?.title || !song?.artist) {
-      const error: GenerateError = {
-        success: false,
-        error: "generation_failed",
-        message: "Song title and artist are required.",
-      };
-      return NextResponse.json(error, { status: 400 });
-    }
-
-    const content = await generateDeepCut(song);
-
-    const response: GenerateResponse = { success: true, content };
-    return NextResponse.json(response);
-  } catch (err) {
-    console.error("[/api/generate] error:", err);
-
-    const isParseError =
-      err instanceof Error && err.message.includes("JSON parse failed");
-
-    const error: GenerateError = {
-      success: false,
-      error: isParseError ? "parse_error" : "api_error",
-      message: isParseError
-        ? "The archive returned something we couldn't read. Try again."
-        : "We couldn't pull the story on this one. Try again in a moment.",
-    };
-    return NextResponse.json(error, { status: 500 });
+    song = await request.json();
+  } catch {
+    return new Response(
+      `data: ${JSON.stringify({ error: "Invalid request body" })}\n\n`,
+      { status: 400, headers: { "Content-Type": "text/event-stream" } }
+    );
   }
+
+  if (!song?.title || !song?.artist) {
+    return new Response(
+      `data: ${JSON.stringify({ error: "Song title and artist are required" })}\n\n`,
+      { status: 400, headers: { "Content-Type": "text/event-stream" } }
+    );
+  }
+
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        await streamDeepCut(song, (section, content) => {
+          const event = `data: ${JSON.stringify({ section, content })}\n\n`;
+          controller.enqueue(encoder.encode(event));
+        });
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify({ done: true })}\n\n`)
+        );
+      } catch (err) {
+        console.error("[/api/generate] stream error:", err);
+        controller.enqueue(
+          encoder.encode(
+            `data: ${JSON.stringify({ error: "Generation failed. Try again." })}\n\n`
+          )
+        );
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    },
+  });
 }
