@@ -24,6 +24,7 @@ const config: Config = {
         serif: ["var(--font-playfair)", "Georgia", "serif"],
         body: ["var(--font-lora)", "Georgia", "serif"],
         sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-baskerville)", "Georgia", "serif"],
       },
       fontSize: {
         "display-xl": ["clamp(2.5rem, 10vw, 4.5rem)", { lineHeight: "0.95" }],

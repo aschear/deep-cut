@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Lora, DM_Sans } from "next/font/google";
+import { Playfair_Display, Lora, DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -23,6 +23,13 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   display: "swap",
   weight: ["400", "500", "600"],
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ["latin"],
+  variable: "--font-baskerville",
+  display: "swap",
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -52,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${lora.variable} ${dmSans.variable}`}
+      className={`${playfair.variable} ${lora.variable} ${dmSans.variable} ${dmSerifDisplay.variable}`}
     >
       <body className="bg-void text-cream antialiased">{children}</body>
     </html>

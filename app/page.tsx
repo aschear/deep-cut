@@ -69,33 +69,19 @@ export default function Home() {
         aria-hidden="true"
       />
 
-      {/* Header */}
-      <header
-        className="relative z-10 flex items-center justify-center px-5 pt-safe pt-5 pb-4"
-      >
-        <span className="font-sans text-[0.6rem] font-semibold tracking-[0.4em] uppercase text-cream-dim">
-          Deep Cut
-        </span>
-      </header>
-
       {/* Main content area */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 pb-16">
         {appState.phase !== "error" ? (
-          <div
-            className={`
-              w-full flex flex-col items-center gap-8
-              transition-opacity duration-500
-              ${isLoading ? "opacity-100" : "opacity-100"}
-            `}
-          >
-            {/* Tagline — hidden while loading */}
+          <div className="w-full flex flex-col items-center gap-14 transition-opacity duration-500">
+
+            {/* Logo + wordmark — hidden while loading */}
             {!isLoading && (
-              <div className="text-center space-y-2 animate-[fade-in_0.7s_ease-out_forwards]">
-                <p className="font-serif italic text-2xl text-cream/60 leading-snug">
-                  What's that song?
-                </p>
-                <p className="font-sans text-xs tracking-[0.15em] uppercase text-cream-dim/50">
-                  Hold your phone toward the music
+              <div className="flex flex-col items-center gap-2 animate-[fade-in_0.7s_ease-out_forwards]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo.png" alt="Deep Cut logo" className="w-36 h-auto" />
+                <p className="font-display text-[2.2rem] leading-none uppercase text-cream text-center">
+                  <span className="tracking-[0.04em]">Deep</span><br />
+                  <span className="tracking-[0.12em]">Cut</span>
                 </p>
               </div>
             )}
@@ -107,14 +93,24 @@ export default function Home() {
               </div>
             )}
 
-            {/* Listen button — always present, hidden visually when loading */}
-            <div className={isLoading ? "opacity-0 pointer-events-none absolute" : ""}>
-              <ListenButton
-                onResult={handleResult}
-                onError={handleError}
-                onStateChange={handleStateChange}
-              />
+            {/* Tagline + button — hidden while loading */}
+            <div className="flex flex-col items-center gap-5">
+              {!isLoading && (
+                <p className="font-serif italic text-lg text-cream/60 leading-snug animate-[fade-in_0.7s_ease-out_forwards]">
+                  What's that song?
+                </p>
+              )}
+
+              {/* Listen button — always present, hidden visually when loading */}
+              <div className={isLoading ? "opacity-0 pointer-events-none absolute" : ""}>
+                <ListenButton
+                  onResult={handleResult}
+                  onError={handleError}
+                  onStateChange={handleStateChange}
+                />
+              </div>
             </div>
+
           </div>
         ) : (
           <ErrorState
