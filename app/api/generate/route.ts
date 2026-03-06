@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { streamDeepCut } from "@/lib/claude";
 import type { SongMatch } from "@/lib/types";
 
+export const maxDuration = 60; // allow up to 60s for Claude streaming on Vercel
+
 export async function POST(request: NextRequest) {
   let song: SongMatch;
   try {
