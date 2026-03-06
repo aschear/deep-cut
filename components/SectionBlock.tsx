@@ -26,7 +26,7 @@ export default function SectionBlock({ header, body }: SectionBlockProps) {
             .map((p) => p.trim())
             .filter(Boolean)
             .map((p, i) => (
-              <p key={i} className="font-body text-[0.975rem] leading-[1.75] text-cream/90">
+              <p key={i} className="font-body text-[0.975rem] leading-[1.75] text-cream/80">
                 {p}
               </p>
             ))}

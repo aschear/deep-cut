@@ -82,7 +82,7 @@ export default function DeepCutPage({
           {/* Text — sits above the art */}
           <div className="relative z-10 px-5">
             <h1
-              className="font-serif font-bold leading-[0.95] text-cream mb-3 break-words"
+              className="font-serif font-bold leading-[0.95] text-cream/80 mb-3 break-words"
               style={{ fontSize: "clamp(2.4rem, 10vw, 4.5rem)" }}
             >
               {song.title.toUpperCase()}
