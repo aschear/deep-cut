@@ -48,9 +48,14 @@ export default function ListenButton({
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
-      // Pick the best available MIME type
-      const mimeType = ["audio/webm;codecs=opus", "audio/webm", "audio/ogg;codecs=opus", "audio/ogg"]
-        .find((type) => MediaRecorder.isTypeSupported(type)) ?? "";
+      // Pick the best available MIME type (iOS Safari only supports audio/mp4)
+      const mimeType = [
+        "audio/webm;codecs=opus",
+        "audio/webm",
+        "audio/ogg;codecs=opus",
+        "audio/ogg",
+        "audio/mp4",
+      ].find((type) => MediaRecorder.isTypeSupported(type)) ?? "";
 
       const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
       mediaRecorderRef.current = recorder;
@@ -63,14 +68,16 @@ export default function ListenButton({
       recorder.onstop = async () => {
         stopStream();
 
-        const audioBlob = new Blob(chunksRef.current, {
-          type: mimeType || "audio/webm",
-        });
+        // Use the recorder's actual MIME type (not our pre-selected guess)
+        const actualMimeType = recorder.mimeType || mimeType || "audio/webm";
+        const ext = actualMimeType.includes("mp4") ? "mp4" : actualMimeType.includes("ogg") ? "ogg" : "webm";
+
+        const audioBlob = new Blob(chunksRef.current, { type: actualMimeType });
 
         // Identify
         updateState("identifying");
         const formData = new FormData();
-        formData.append("audio", audioBlob, "clip.webm");
+        formData.append("audio", audioBlob, `clip.${ext}`);
 
         const identifyRes = await fetch("/api/identify", {
           method: "POST",

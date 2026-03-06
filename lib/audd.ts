@@ -58,8 +58,14 @@ export async function identifyAudio(audioBlob: Blob): Promise<SongMatch | null> 
 
   const data: AudDResult = await response.json();
 
-  if (data.status !== "success" || !data.result) {
-    return null;
+  if (data.status !== "success") {
+    // AudD returned an error (e.g. out of credits, invalid key)
+    console.error("[AudD] API error response:", JSON.stringify(data));
+    throw new Error(`AudD API error: ${JSON.stringify(data)}`);
+  }
+
+  if (!data.result) {
+    return null; // genuine no-match
   }
 
   const result = data.result;
