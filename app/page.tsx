@@ -76,10 +76,10 @@ export default function Home() {
 
             {/* Logo + wordmark — hidden while loading */}
             {!isLoading && (
-              <div className="flex flex-col items-center gap-2 animate-[fade-in_0.7s_ease-out_forwards]">
+              <div className="flex flex-col items-center gap-2 animate-[fade-in_0.7s_ease-out_forwards] w-[60vw]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo.png" alt="Deep Cut logo" className="w-36 h-auto" />
-                <p className="font-display text-[2.2rem] leading-none uppercase text-cream text-center">
+                <img src="/logo.png" alt="Deep Cut logo" className="w-full h-auto" />
+                <p className="font-display text-[clamp(3rem,_13vw,_6rem)] leading-none uppercase text-cream text-center">
                   <span className="tracking-[0.04em]">Deep</span><br />
                   <span className="tracking-[0.12em]">Cut</span>
                 </p>
