@@ -97,7 +97,7 @@ export default function Home() {
             <div className="flex flex-col items-center gap-5">
               {!isLoading && (
                 <p className="font-serif italic text-lg text-cream/60 leading-snug animate-[fade-in_0.7s_ease-out_forwards]">
-                  What's that song?
+                  Hear a song. Read its story.
                 </p>
               )}
 
