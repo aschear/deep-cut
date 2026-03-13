@@ -67,16 +67,30 @@ export default function ListenButton({
       mediaRecorderRef.current = recorder;
       chunksRef.current = [];
 
+      // For mp4 (iOS Safari, no timeslice), onstop fires BEFORE ondataavailable.
+      // This promise resolves when the first data chunk arrives so onstop can wait for it.
+      let resolveFirstData: (() => void) | null = null;
+      const firstDataPromise = new Promise<void>((resolve) => {
+        resolveFirstData = resolve;
+      });
+
       recorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunksRef.current.push(e.data);
+        resolveFirstData?.();
+        resolveFirstData = null;
       };
 
       recorder.onstop = async () => {
         stopStream();
 
         // iOS Safari fires onstop before ondataavailable when no timeslice is used.
-        // Yield one tick so ondataavailable can fire and populate chunksRef first.
-        await new Promise<void>((resolve) => setTimeout(resolve, 0));
+        // Wait for the data event rather than racing a setTimeout(0).
+        if (mimeType.includes("mp4")) {
+          await Promise.race([
+            firstDataPromise,
+            new Promise<void>((resolve) => setTimeout(resolve, 500)),
+          ]);
+        }
 
         // Use the recorder's actual MIME type (not our pre-selected guess)
         const actualMimeType = recorder.mimeType || mimeType || "audio/webm";
