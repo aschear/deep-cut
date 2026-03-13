@@ -15,7 +15,7 @@ interface ListenButtonProps {
   onStateChange: (state: ListenState) => void;
 }
 
-const RECORD_DURATION_MS = 7000;
+const RECORD_DURATION_MS = 12000;
 
 export default function ListenButton({
   onResult,
@@ -63,7 +63,10 @@ export default function ListenButton({
         "audio/mp4",
       ].find((type) => MediaRecorder.isTypeSupported(type)) ?? "";
 
-      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      const recorder = new MediaRecorder(stream, {
+        ...(mimeType ? { mimeType } : {}),
+        audioBitsPerSecond: 128000,
+      });
       mediaRecorderRef.current = recorder;
       chunksRef.current = [];
 
