@@ -45,12 +45,14 @@ export default function ListenButton({
 
     try {
       updateState("requesting");
+
+      // Safari's default audio processing produces cleaner fingerprints for AudD.
+      // Chrome/Android over-processes the signal, so we disable it there.
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          noiseSuppression: false,
-          echoCancellation: false,
-          autoGainControl: false,
-        },
+        audio: isSafari
+          ? true
+          : { noiseSuppression: false, echoCancellation: false, autoGainControl: false },
       });
       streamRef.current = stream;
 
