@@ -113,7 +113,9 @@ export default function ListenButton({
       };
 
       updateState("recording");
-      recorder.start(250); // collect in 250ms chunks
+      // mp4 (iOS Safari): no timeslice — fMP4 chunks can't be reliably concatenated
+      // webm/ogg: 250ms timeslice works fine for streaming collection
+      recorder.start(mimeType.includes("mp4") ? undefined : 250);
 
       // Auto-stop after RECORD_DURATION_MS
       setTimeout(() => {
