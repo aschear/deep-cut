@@ -44,7 +44,11 @@ export async function identifyAudio(audioBlob: Blob): Promise<SongMatch | null> 
 
   const formData = new FormData();
   formData.append("api_token", apiKey);
-  formData.append("file", audioBlob, "audio.webm");
+  const ext = audioBlob.type.includes("mp4") ? "mp4"
+    : audioBlob.type.includes("ogg") ? "ogg"
+    : "webm";
+  console.log("[AudD] sending audio — type:", audioBlob.type, "size:", audioBlob.size, "ext:", ext);
+  formData.append("file", audioBlob, `audio.${ext}`);
   formData.append("return", "apple_music,spotify");
 
   const response = await fetch("https://api.audd.io/", {
@@ -65,7 +69,8 @@ export async function identifyAudio(audioBlob: Blob): Promise<SongMatch | null> 
   }
 
   if (!data.result) {
-    return null; // genuine no-match
+    console.log("[AudD] no-match response:", JSON.stringify(data));
+    return null;
   }
 
   const result = data.result;

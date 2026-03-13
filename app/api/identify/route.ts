@@ -7,6 +7,8 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const audioFile = formData.get("audio");
 
+    console.log("[identify] audio received — type:", (audioFile as Blob)?.type, "size:", (audioFile as Blob)?.size);
+
     if (!audioFile || !(audioFile instanceof Blob)) {
       const error: IdentifyError = {
         success: false,
