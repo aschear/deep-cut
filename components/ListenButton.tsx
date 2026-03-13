@@ -74,6 +74,10 @@ export default function ListenButton({
       recorder.onstop = async () => {
         stopStream();
 
+        // iOS Safari fires onstop before ondataavailable when no timeslice is used.
+        // Yield one tick so ondataavailable can fire and populate chunksRef first.
+        await new Promise<void>((resolve) => setTimeout(resolve, 0));
+
         // Use the recorder's actual MIME type (not our pre-selected guess)
         const actualMimeType = recorder.mimeType || mimeType || "audio/webm";
         const ext = actualMimeType.includes("mp4") ? "mp4" : actualMimeType.includes("ogg") ? "ogg" : "webm";
