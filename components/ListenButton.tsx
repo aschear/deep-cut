@@ -15,7 +15,7 @@ interface ListenButtonProps {
   onStateChange: (state: ListenState) => void;
 }
 
-const RECORD_DURATION_MS = 12000;
+const RECORD_DURATION_MS = 8000;
 
 export default function ListenButton({
   onResult,
