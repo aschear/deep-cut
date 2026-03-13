@@ -45,7 +45,13 @@ export default function ListenButton({
 
     try {
       updateState("requesting");
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          noiseSuppression: false,
+          echoCancellation: false,
+          autoGainControl: false,
+        },
+      });
       streamRef.current = stream;
 
       // Pick the best available MIME type (iOS Safari only supports audio/mp4)
