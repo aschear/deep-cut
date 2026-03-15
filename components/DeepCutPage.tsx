@@ -76,6 +76,11 @@ export default function DeepCutPage({
               aria-hidden="true"
             />
           )}
+          {/* Dark overlay to ensure text contrast against any album art */}
+          <div
+            className="absolute inset-0 bg-black/20"
+            aria-hidden="true"
+          />
           {/* Subtle bottom fade so hero blends cleanly into the divider */}
           <div
             className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-void to-transparent"
