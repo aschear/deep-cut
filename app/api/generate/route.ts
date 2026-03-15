@@ -34,10 +34,37 @@ export async function POST(request: NextRequest) {
             try {
               const items: DigDeeperItem[] = JSON.parse(content);
               if (Array.isArray(items)) {
+                // Validate: each item must have non-empty basis, songTitle, artistName, category, explanation
+                const valid = items.filter((item) => {
+                  if (!item.songTitle || !item.artistName || !item.category || !item.explanation) {
+                    console.warn("[Dig Deeper QA] Dropped item missing required fields:", item);
+                    return false;
+                  }
+                  if (!item.basis || item.basis.trim().length === 0) {
+                    console.warn(`[Dig Deeper QA] Dropped item with empty basis: "${item.songTitle}" by ${item.artistName}`);
+                    return false;
+                  }
+                  return true;
+                });
+
+                // QA logging
+                for (const item of valid) {
+                  console.log(`[Dig Deeper QA] ${item.category}: "${item.songTitle}" by ${item.artistName} / Basis: ${item.basis}`);
+                }
+
+                // Skip section entirely if no valid items remain
+                if (valid.length === 0) {
+                  console.warn("[Dig Deeper QA] All items failed validation, skipping section");
+                  return;
+                }
+
+                // Enrich with Spotify URLs
                 const enriched = await Promise.all(
-                  items.map(async (item) => {
+                  valid.map(async (item) => {
                     const spotifyUrl = await searchSpotifyTrack(item.songTitle, item.artistName);
-                    return spotifyUrl ? { ...item, spotifyUrl } : item;
+                    // Strip basis before sending to client (internal field only)
+                    const { basis, ...clientItem } = item;
+                    return spotifyUrl ? { ...clientItem, spotifyUrl } : clientItem;
                   })
                 );
                 const event = `data: ${JSON.stringify({ section, content: JSON.stringify(enriched) })}\n\n`;

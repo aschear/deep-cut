@@ -9,10 +9,11 @@ export interface SongMatch {
 }
 
 export interface DigDeeperItem {
-  category: "Key Influences" | "In Conversation" | "Surprising Connections";
+  category: "Key Influence" | "In Conversation" | "Surprising Connection";
   songTitle: string;
   artistName: string;
   explanation: string;
+  basis?: string;
   spotifyUrl?: string;
 }
 

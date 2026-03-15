@@ -53,22 +53,30 @@ Fascinating, specific, unexpected details. Production secrets, hidden meanings, 
 Every claim here must be grounded in something you actually know. A wrong specific detail is worse than no detail.
 
 [digDeeper]
-After the five editorial sections, generate a "Dig Deeper" section: three song recommendations that reward the curious listener with unexpected connections. Output a JSON array of exactly three objects, each with keys: category, songTitle, artistName, explanation.
+After the five editorial sections, generate a "Dig Deeper" section: three song recommendations that reward the curious listener with unexpected connections.
 
-Each recommendation belongs to one of three categories — use exactly one of each:
+Each recommendation must include a basis field containing the specific, verifiable fact that justifies the recommendation. This is your editorial fact-check — if you cannot articulate a concrete basis, do not use that recommendation. Choose a different song where you can.
 
-1. "Key Influences" — A specific song that directly influenced the identified track. Not a vague genre ancestor. Name the song you can actually hear in the DNA of this track, and say why in one sentence.
+The three categories:
 
-2. "In Conversation" — A contemporary song (released within roughly the same era) that shares a creative dialogue with this track. They might be responding to the same cultural moment, working through the same sonic idea from a different angle, or part of the same scene. One sentence explaining the connection.
+1. "Key Influence" — A specific song that directly influenced the identified track. Not a vague genre ancestor. Name the song you can actually hear in the DNA of this track. Your basis must identify the specific musical element that shows the influence: a chord progression, a vocal technique, a production approach, a structural borrowing. If you can only gesture at genre similarity, pick a different song.
 
-3. "Surprising Connections" — The most unexpected link you can surface with confidence. A shared producer who shaped both tracks. A session musician who played on both. An artist who publicly cited this song as an influence on something wildly different. A sampled element. The connection must be factually grounded — do not invent or speculate. If you cannot identify a genuinely surprising, verifiable connection, choose a different type of surprising link rather than fabricating one. One sentence, and make it land.
+2. "In Conversation" — A song from roughly the same era that shares a creative dialogue with this track. They might be responding to the same cultural moment, working through the same sonic idea from a different angle, or part of the same scene. Your basis must name the specific shared context: the same scene, the same movement, the same response to a specific cultural event, or a documented mutual awareness between the artists.
 
-Critical rule: All three recommendations must be by a DIFFERENT artist than the one being written about. Never recommend a song by the same artist — the reader already knows that artist. The point is to send them somewhere new.
+3. "Surprising Connection" — The most unexpected link you can surface, but ONLY if it meets one of these criteria: (a) A named producer who worked on both tracks (b) A named musician who performed on both recordings (c) A documented sample or interpolation linking the two songs (d) A direct quote from an artist publicly citing the other song as an influence (e) A documented collaboration or co-writing credit connecting the two artists
 
-For all three: the explanation must be exactly one sentence. Not two. Not a sentence with a semicolon and a second clause. One clean sentence that makes someone want to press play. Write in the same editorial voice as the rest of the article — authoritative, specific, with genuine enthusiasm for the music. These are recommendations from someone who knows more than you, not from an algorithm.
+Do NOT use sonic similarity, thematic resemblance, or genre adjacency as a Surprising Connection — those belong in the other two categories. Your basis must name the specific person, sample, or documented quote that constitutes the connection.
 
-Output the JSON array immediately after the [digDeeper] marker with no other text. Example format:
-[{"category":"Key Influences","songTitle":"Song Name","artistName":"Artist Name","explanation":"One sentence."},{"category":"In Conversation","songTitle":"Song Name","artistName":"Artist Name","explanation":"One sentence."},{"category":"Surprising Connections","songTitle":"Song Name","artistName":"Artist Name","explanation":"One sentence."}]
+IMPORTANT: If you cannot identify a Surprising Connection that meets the criteria above, replace it with a second "In Conversation" or "Key Influence" recommendation instead. Label it with the replacement category accordingly. Three honest recommendations are always better than two honest ones and a fabrication.
+
+For all three recommendations:
+* The explanation field must be exactly one sentence. Not two. Not a sentence with a semicolon and a second clause. One sentence.
+* The basis field should be a brief, factual statement — not marketing copy. Example: "Producer Danger Mouse produced both this track and the identified song's album" or "McCready has cited Hendrix's use of minor pentatonic phrasing on this track as a direct reference point in a 1993 Guitar World interview."
+* Write the explanation in the same editorial voice as the rest of the article — authoritative, specific, with genuine enthusiasm. These are recommendations from someone who knows more than the reader, not from an algorithm.
+* Do not recommend songs by the same artist as the identified track.
+
+Output a JSON array of exactly three objects, each with keys: category, songTitle, artistName, explanation, basis. Output the JSON array immediately after the [digDeeper] marker with no other text. Example format:
+[{"category":"Key Influence","songTitle":"Song Name","artistName":"Artist Name","explanation":"One sentence.","basis":"Specific verifiable fact."},{"category":"In Conversation","songTitle":"Song Name","artistName":"Artist Name","explanation":"One sentence.","basis":"Specific verifiable fact."},{"category":"Surprising Connection","songTitle":"Song Name","artistName":"Artist Name","explanation":"One sentence.","basis":"Named person, sample, or documented quote."}]
 
 Output only the section markers and their content. No preamble, no closing remarks, no extra formatting.`;
 
