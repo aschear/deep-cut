@@ -1,9 +1,11 @@
 import SectionBlock from "./SectionBlock";
-import type { SongMatch, DeepCutContent } from "@/lib/types";
+import DigDeeperSection from "./DigDeeperSection";
+import type { SongMatch, DeepCutContent, DigDeeperItem } from "@/lib/types";
 
 interface DeepCutPageProps {
   song: SongMatch;
   content: Partial<DeepCutContent>;
+  digDeeper?: DigDeeperItem[] | null;
   generateState: "loading" | "done" | "error";
   generateError?: string;
   onBack: () => void;
@@ -13,6 +15,7 @@ interface DeepCutPageProps {
 export default function DeepCutPage({
   song,
   content,
+  digDeeper,
   generateState,
   generateError,
   onBack,
@@ -144,6 +147,9 @@ export default function DeepCutPage({
 
             <div className="w-full h-px bg-chalk-line" />
             <SectionBlock header="Trivia & Deep Lore" body={content.triviaAndDeepLore ?? null} />
+
+            <div className="w-full h-px bg-chalk-line" />
+            <DigDeeperSection items={digDeeper} loading={generateState === "loading"} />
           </main>
         )}
 

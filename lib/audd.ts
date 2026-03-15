@@ -108,7 +108,7 @@ export async function identifyAudio(audioBlob: Blob): Promise<SongMatch | null> 
   };
 }
 
-async function fetchItunesArtwork(
+export async function fetchItunesArtwork(
   title: string,
   artist: string
 ): Promise<string | undefined> {

@@ -8,12 +8,20 @@ export interface SongMatch {
   genre?: string;
 }
 
+export interface DigDeeperItem {
+  category: "Key Influences" | "In Conversation" | "Surprising Connections";
+  songTitle: string;
+  artistName: string;
+  explanation: string;
+}
+
 export interface DeepCutContent {
   bandHistory: string;
   storyBehindSong: string;
   criticalReception: string;
   controversies: string | null;
   triviaAndDeepLore: string;
+  digDeeper?: DigDeeperItem[];
 }
 
 export type SectionKey = keyof DeepCutContent;
