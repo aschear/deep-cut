@@ -74,7 +74,7 @@ Output only the section markers and their content. No preamble, no closing remar
 
 export async function streamDeepCut(
   song: SongMatch,
-  onSection: (section: SectionKey, content: string) => void
+  onSection: (section: SectionKey, content: string) => void | Promise<void>
 ): Promise<void> {
   const userPrompt = JSON.stringify({
     title: song.title,
@@ -114,7 +114,7 @@ export async function streamDeepCut(
             if (currentSection !== null) {
               const content = buffer.slice(0, idx).trim();
               // controversies "null" → emit as empty string so caller can treat as null
-              onSection(currentSection, content === "null" ? "" : content);
+              await onSection(currentSection, content === "null" ? "" : content);
             }
             currentSection = SECTION_MARKERS[marker];
             currentContent = "";
@@ -130,7 +130,7 @@ export async function streamDeepCut(
   // Emit the final section
   if (currentSection !== null) {
     const content = buffer.trim();
-    onSection(currentSection, content === "null" ? "" : content);
+    await onSection(currentSection, content === "null" ? "" : content);
   }
 
   // Ensure all sections were emitted (fill missing ones with empty string)

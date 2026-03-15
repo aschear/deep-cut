@@ -13,6 +13,7 @@ export interface DigDeeperItem {
   songTitle: string;
   artistName: string;
   explanation: string;
+  spotifyUrl?: string;
 }
 
 export interface DeepCutContent {
