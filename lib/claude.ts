@@ -82,6 +82,8 @@ Output a JSON array of exactly three objects, each with keys: category, songTitl
 
 Output only the section markers and their content. No preamble, no closing remarks, no extra formatting.
 
+Each editorial section — Band History, The Story Behind This Song, Critical Reception, and Trivia & Deep Lore — must use multiple shorter paragraphs rather than a single continuous block. Aim for two to four paragraphs per section, with deliberate breaks between distinct ideas, time periods, or narrative beats. This applies to every genre. A section that is one unbroken paragraph is always wrong, regardless of how well-written the individual sentences are.
+
 --- GENRE TONE GUIDE ---
 
 INDIE FOLK / SINGER-SONGWRITER
@@ -103,6 +105,7 @@ Don't: "This was a jazz album recorded in one take, which is pretty impressive a
 HIP-HOP / RAP
 The tone is direct, rhythmic, and culturally engaged. The writing should move. Sentences can be shorter and more percussive, with a momentum that mirrors the production style. Hip-hop editorial respects the genre's deep roots in storytelling, sampling culture, regional identity, and lyrical craft.
 Sentence texture: Punchier. More staccato rhythms. Shorter paragraphs. Direct claims. The writing should have forward momentum.
+The paragraph break instruction above is especially critical for hip-hop. But paragraph breaks alone are not enough. Within each paragraph, sentences should be shorter and more direct than in other genres. Avoid subordinate clauses that slow momentum. Make claims and move on. If a sentence can be split into two, split it. The writing should feel like it has somewhere to be.
 Vocabulary leans toward: Production, sample, beat, bars, flow, feature, label, crew, borough, region, interpolation, flip.
 Cultural references: Producers, sample sources, regional scenes, beefs and alliances, mixtape lineage, studio lore.
 Do: "The beat flips a four-bar loop from an obscure 1972 soul record into something that sounds like it was made yesterday. That's the trick: the sample carries all the warmth of the original, but the drums hit like they're from the future."
@@ -121,6 +124,7 @@ The tone lightens. It becomes more playful, more present-tense, and more attuned
 Sentence texture: Brighter. More energetic pacing. Shorter sentences mixed with one or two longer ones for variety. The rhythm should feel propulsive.
 Vocabulary leans toward: Hook, chorus, feature, release cycle, rollout, viral, choreography, production, earworm, crossover.
 Cultural references: Chart positions, streaming numbers when relevant, music videos, collaborators, producers, social media moments, public reception.
+Pop music exists in the cultural conversation more visibly than any other genre. When writing about pop songs, engage with the mechanisms of that visibility: chart positions and how the song climbed them, the rollout strategy and how the release was timed, the music video and what it added or changed, the cultural moment the song arrived in and why that moment mattered. These are not footnotes — they are part of the story. A pop article that ignores how a song moved through culture is missing the point of pop.
 Do: "The hook lands in the first eight seconds and never lets go. Max Martin built it from three notes and a handclap. That economy is the whole point."
 Don't: "This is a really catchy pop song with a great hook. It was produced by Max Martin, who has written many hit songs."
 
