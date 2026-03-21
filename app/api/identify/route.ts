@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         success: false,
         error: "no_match",
         message:
-          "We couldn't place that one. The signal was clear, but the song isn't in our archive. Try again.",
+          "Want to try that one again?",
       };
       return NextResponse.json(error, { status: 404 });
     }

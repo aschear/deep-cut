@@ -7,7 +7,7 @@ interface ErrorStateProps {
 export default function ErrorState({ message, type, onRetry }: ErrorStateProps) {
   const headline =
     type === "no_match"
-      ? "Signal lost."
+      ? "Couldn't place it."
       : "Something went wrong.";
 
   return (
@@ -28,7 +28,7 @@ export default function ErrorState({ message, type, onRetry }: ErrorStateProps) 
           focus:outline-none focus-visible:ring-2 focus-visible:ring-ember
         "
       >
-        Try Again
+        LISTEN AGAIN
       </button>
     </div>
   );
